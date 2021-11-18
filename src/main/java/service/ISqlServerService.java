@@ -17,10 +17,10 @@ public interface ISqlServerService {
 
     /**
      * Add the given list of products to the database
-     * @param products
+     * @param product
      * @return
      */
-    public boolean addNewProduct(List<Product> products);
+    public boolean addNewProduct(Product product);
 
     /**
      * Remove from the product table the item matching the give product ID
@@ -30,10 +30,38 @@ public interface ISqlServerService {
     public boolean deleteProducts(int productId);
 
     /**
+     * Update an existing product - delete and add/create - or select existing one and update fields.
+     * @param product
+     * @return
+     */
+    public boolean updateProduct(Product product);
+
+    /**
+     * Retrieve the User matching the supplied userName
+     * @param userName
+     * @return
+     */
+    public User getUser(String userName);
+
+    /**
      * Add the new user to the database
      * @param newUser
      * @return
      */
     public boolean addUser(User newUser);
+
+    /**
+     * Remove the user matching the given ID
+     * @param userId
+     * @return
+     */
+    public boolean removeUser(int userId);
+
+    /**
+     * Update an existing user - delete and add/create - or select existing one and update fields.
+     * @param user
+     * @return
+     */
+    public boolean updateUser(User user);
 
 }

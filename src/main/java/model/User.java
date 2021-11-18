@@ -8,6 +8,14 @@ public class User {
     private String role;
 
 
+    public User(String userName, String firstName, String lastName, String role){
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+
+    }
+
     public String getUserName() {
         return userName;
     }
