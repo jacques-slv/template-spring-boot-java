@@ -44,7 +44,8 @@ public class UserController {
 
         User newUser = new User(username, firstname, lastname, role);
         if(_sqlServerService.addUser(newUser)){
-            return Map.of("message", "New User Created!\n"+newUser.toString());
+//            return Map.of("message", "New User Created!\n"+newUser.toString());
+            return Map.of("message", "User: "+ username +" has been added to the database");
         }
 
         return Map.of("message", "New User Could Not Be Created!");

@@ -7,6 +7,11 @@ import java.util.List;
 
 public interface ISqlServerService {
 
+    /**
+     * Set up the connection to MySql server
+     * @return
+     */
+    public boolean connect();
 
     /**
      * Retrieve all products matching the search string
@@ -48,7 +53,7 @@ public interface ISqlServerService {
      * @param newUser
      * @return
      */
-    public boolean addUser(User newUser);
+    public boolean addUser(User newUser)throws Exception;
 
     /**
      * Remove the user matching the given ID

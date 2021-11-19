@@ -7,7 +7,7 @@ public class MySqlConfig {
     private String  userName;
     private String  password;
 
-    public MySqlConfig(String connectionString, String port, String userName, String password) {
+    public MySqlConfig(String connectionString, String userName, String password) {
         this.connectionString = connectionString;
         this.port = port;
         this.userName = userName;
