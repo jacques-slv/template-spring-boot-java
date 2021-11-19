@@ -7,6 +7,10 @@ import java.util.List;
 
 public class SqlServerServiceImpl implements ISqlServerService {
 
+    MySqlConfig _config;
+    public SqlServerServiceImpl(MySqlConfig config) {
+        _config = config;
+    }
 
     @Override
     public List<Product> getProducts(String searchString) {

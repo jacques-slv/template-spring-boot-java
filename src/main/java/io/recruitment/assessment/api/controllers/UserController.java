@@ -9,7 +9,26 @@ import service.SqlServerServiceImpl;
 
 import java.util.Map;
 
+//@RestController
+//@RequestMapping("/hello-world")
+//public class UserController {
+
+//    private SqlServerServiceImpl _sqlServerService;
+//
+//    public UserController(SqlServerServiceImpl sqlServerService){
+//        _sqlServerService = sqlServerService;
+//    }
+//
+//    @RequestMapping("/adduser/{username}/{firstname}/{lastname}/{role}")
+//    Boolean addUser(@PathVariable String username, @PathVariable String firstname, @PathVariable String lastname, @PathVariable String role) {
+//        User newUser = new User(username, firstname,lastname,role);
+//        return _sqlServerService.addUser(newUser);
+//    }
+
+//}
+
 @RestController
+@RequestMapping("/adduser/{username}/{firstname}/{lastname}/{role}")
 public class UserController {
 
     private SqlServerServiceImpl _sqlServerService;
@@ -17,10 +36,18 @@ public class UserController {
     public UserController(SqlServerServiceImpl sqlServerService){
         _sqlServerService = sqlServerService;
     }
-    @RequestMapping("/adduser/{username}/{firstname}/{lastname}/{role}")
-    Boolean addUser(@PathVariable String username, @PathVariable String firstname, @PathVariable String lastname, @PathVariable String role) {
-        User newUser = new User(username, firstname,lastname,role);
-        return _sqlServerService.addUser(newUser);
+
+
+
+    @GetMapping
+    Map<String, String> addUser(@PathVariable String username, @PathVariable String firstname, @PathVariable String lastname, @PathVariable String role) {
+
+        User newUser = new User(username, firstname, lastname, role);
+        if(_sqlServerService.addUser(newUser)){
+            return Map.of("message", "New User Created!\n"+newUser.toString());
+        }
+
+        return Map.of("message", "New User Could Not Be Created!");
     }
 
 }
