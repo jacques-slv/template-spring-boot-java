@@ -14,6 +14,12 @@ public interface ISqlServerService {
     public boolean connect();
 
     /**
+     * Disconnect from MySql server
+     * @return
+     */
+    public boolean disconnect();
+
+    /**
      * Retrieve all products matching the search string
      * @param searchString
      * @return
@@ -46,21 +52,21 @@ public interface ISqlServerService {
      * @param userName
      * @return
      */
-    public User getUser(String userName);
+    public List<User> getUser(String userName);
 
     /**
      * Add the new user to the database
      * @param newUser
      * @return
      */
-    public boolean addUser(User newUser)throws Exception;
+    public String addUser(User newUser)throws Exception;
 
     /**
      * Remove the user matching the given ID
      * @param userId
      * @return
      */
-    public boolean removeUser(int userId);
+    public String deleteUser(String userId);
 
     /**
      * Update an existing user - delete and add/create - or select existing one and update fields.

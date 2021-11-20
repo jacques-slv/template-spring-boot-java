@@ -3,11 +3,9 @@ package service;
 import model.Product;
 import model.User;
 
-import java.sql.PreparedStatement;
+import java.sql.*;
+import java.util.LinkedList;
 import java.util.List;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class SqlServerServiceImpl implements ISqlServerService {
 
@@ -32,6 +30,20 @@ public class SqlServerServiceImpl implements ISqlServerService {
         return true;
     }
 
+
+    @Override
+    public boolean disconnect() {
+        try {
+            if(!mySqlConnection.isClosed()) mySqlConnection.close();
+            System.out.println("Connection closed: " + mySqlConnection.isClosed());
+
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            return false;
+        }
+        return true;
+    }
     @Override
     public List<Product> getProducts(String searchString) {
         return null;
@@ -53,15 +65,43 @@ public class SqlServerServiceImpl implements ISqlServerService {
     }
 
     @Override
-    public User getUser(String userName) {
-        return null;
+    public List<User> getUser(String userName) {
+        List<User> result = new LinkedList<>();
+        try {
+                if (mySqlConnection == null || mySqlConnection.isClosed()) connect();
+
+                PreparedStatement prepareStatement = mySqlConnection.prepareStatement("select * from user where username LIKE '%?%';");
+                prepareStatement.setString(1, userName);
+
+                ResultSet resultSet = prepareStatement.executeQuery();
+                ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            System.out.println("Result Set: " + resultSet.getArray("username"));
+                while (resultSet.next())
+                {
+                    System.out.println("Column count: " + resultSetMetaData.getColumnCount());
+                    result.add(new User(
+                            resultSet.getString(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getString(4)));
+                }
+            } catch (SQLException e){
+                System.out.println("SQLException: " + e.getMessage());
+                System.out.println("SQLState: " + e.getSQLState());
+                return  null;
+            }
+            finally {
+                disconnect();
+                return result;
+            }
+
     }
 
     @Override
-    public boolean addUser(User newUser) {
+    public String addUser(User newUser) {
 
-        if (mySqlConnection == null) connect();
         try {
+            if (mySqlConnection == null || mySqlConnection.isClosed()) connect();
 //                    newUser.getRole(),newUser.getUserName() newUser.getFirstName(), newUser.getLastName(), );
             PreparedStatement stmt = mySqlConnection.prepareStatement("insert into user (role, username, firstname, lastname) values(?,?,?,?)");
             stmt.setString(1,newUser.getRole());
@@ -69,22 +109,41 @@ public class SqlServerServiceImpl implements ISqlServerService {
             stmt.setString(3,newUser.getFirstName());
             stmt.setString(4,newUser.getLastName());
 
-            int i=stmt.executeUpdate();
+            int i = stmt.executeUpdate();
             System.out.println(i+" records inserted");
-
-
-            mySqlConnection.close();
             System.out.println("Connection closed: " + mySqlConnection.isClosed());
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e){
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            return  "user" + newUser.getUserName()+ " could not be added. MySql returned: "+e.getMessage();
         }
-
-        return true;
+        finally {
+            disconnect();
+        }
+        // happy path. User added successfully
+        return "user " + newUser.getUserName()+ " has been added";
     }
 
     @Override
-    public boolean removeUser(int userId) {
-        return false;
+    public String deleteUser(String username) {
+        try {
+            if (mySqlConnection == null || mySqlConnection.isClosed()) connect();
+
+            PreparedStatement stmt = mySqlConnection.prepareStatement("delete from user where username = ?;");
+            stmt.setString(1, username);
+
+            int i = stmt.executeUpdate();
+            System.out.println(i+" records updated");
+        } catch (SQLException e){
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            return  "user" + username + " could not be added. MySql returned: "+e.getMessage();
+        }
+        finally {
+            disconnect();
+        }
+        // happy path. User added successfully
+        return "user " + username+ " has been delete successfully";
     }
 
     @Override

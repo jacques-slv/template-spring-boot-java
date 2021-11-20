@@ -6,6 +6,7 @@ role char(30) not null,
 username char(30) not null,
 firstname char(30) not null,
 lastname char(30) not null,
+unique (username),
 PRIMARY KEY (id));
 
 DROP TABLE IF EXISTS product;
