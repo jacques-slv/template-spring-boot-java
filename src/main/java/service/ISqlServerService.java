@@ -66,7 +66,7 @@ public interface ISqlServerService {
      * @param userId
      * @return
      */
-    public String deleteUser(String userId);
+    public boolean deleteUser(String userId);
 
     /**
      * Update an existing user - delete and add/create - or select existing one and update fields.
