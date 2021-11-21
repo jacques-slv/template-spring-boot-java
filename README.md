@@ -18,10 +18,13 @@ Open a PowerShell console in the project root folder, and execute the shell comm
 ```shell script
 docker-compose up -d
 ```
-Once MySQL has been deployed to the Docker container, the DB 'technicalassessment' can be populated, 
+Once MySQL has been deployed to the Docker container, the DB 'assessment' can be populated, 
 using the sql scripts located in the project 'resource' folder.
 There are two scripts in the project resources folder, one to create the DB schema and one to populate 
 the tables with some test data;
+In order to populate the assessment DB it is necessary to use the CLI shell from Docker and log into MySql. 
+Then just copy and paste the content of the files, schema first then the data;
+
 
 
 #How to run the Application
@@ -36,7 +39,9 @@ The application supports the following:
 * Get Product data (REST /product/get/{name})
 * Remove an existing Product (REST /product/delete/{name});
 
-``Get User and Producr use a loose search for partial strings.``
+``Get User and Product use a loose search for partial strings.``
 
+NOTE: The bulk of the code has been implemented, but only the SqlServiceImpl methods for add, delete, and get user have been unit tested.
+This is a work in progress and will be completed at some later stage... 
 
 
