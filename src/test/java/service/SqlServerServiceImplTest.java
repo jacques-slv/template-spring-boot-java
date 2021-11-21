@@ -38,21 +38,51 @@ class SqlServerServiceImplTest {
     }
 
     @Test
+    @DisplayName("Verify that the new User cannot be added as a user with the same username already exists!")
+    void userAlreadyExists() {
+        addTestUserToDB();
+        String expectedResult = "Duplicate entry 'testuser' for key 'user.username'";
+        assertEquals(expectedResult, sqlServerService.addUser(new User("testuser", "test", "user", "admin")),
+                "The result is not as expected");
+
+    }
+
+    @Test
     @DisplayName("Verify that the new User can be retrieved successfully")
     void userCanBeRetrievedSuccessfully() {
 
-        List<User> expectedResult = new LinkedList<User>() {
-            User expectedUser = new User("john.blog", "john", "blog", "CUSTOMER");
-        };
-        assertEquals(expectedResult, sqlServerService.getUser("testuser"),
+        User expectedUser = new User("john.blog", "john", "blog", "CUSTOMER");
+        User actualUser = sqlServerService.getUser("john.blog").get(0);
+        assertEquals(expectedUser.getUserName(), actualUser.getUserName(),
+                "The result is not the expected result");
+        assertEquals(expectedUser.getFirstName(), actualUser.getFirstName(),
+                "The result is not the expected result");
+        assertEquals(expectedUser.getLastName(), actualUser.getLastName(),
+                "The result is not the expected result");
+        assertEquals(expectedUser.getRole(), actualUser.getRole(),
                 "The result is not the expected result");
     }
+    @Test
+    @DisplayName("Verify that the user deosn't exist in the DB")
+    void userDoesNoExist() {
+
+        assertEquals(null, sqlServerService.getUser("tester"),
+                "The result should be null");
+    }
+
 
     @Test
     @DisplayName("Verify that the new User can be deleted successfully")
     void userCanBeDeletedSuccessfully() {
         addTestUserToDB();
         assertTrue(sqlServerService.deleteUser("testuser"));
+    }
+
+    @Test
+    @DisplayName("Verify that the new User cannot be deleted successfully")
+    void userCannotBeDeletedSuccessfully() {
+        addTestUserToDB();
+        assertFalse(sqlServerService.deleteUser("tester"));
     }
 
 

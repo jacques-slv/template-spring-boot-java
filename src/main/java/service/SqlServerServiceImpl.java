@@ -92,6 +92,7 @@ public class SqlServerServiceImpl implements ISqlServerService {
             return null;
         } finally {
             disconnect();
+            if(result.isEmpty())return null;
             return result;
         }
 
@@ -131,6 +132,7 @@ public class SqlServerServiceImpl implements ISqlServerService {
 
             int i = stmt.executeUpdate();
             System.out.println(i + " records updated");
+            if(i == 0){return false;}
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
