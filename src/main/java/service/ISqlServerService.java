@@ -24,28 +24,28 @@ public interface ISqlServerService {
      * @param searchString
      * @return
      */
-    public List<Product> getProducts(String searchString);
+    public List<Product> getProduct(String searchString);
 
     /**
      * Add the given list of products to the database
      * @param product
      * @return
      */
-    public boolean addNewProduct(Product product);
+    public String addNewProduct(Product product);
 
     /**
      * Remove from the product table the item matching the give product ID
-     * @param productId
+     * @param productName
      * @return
      */
-    public boolean deleteProducts(int productId);
+    public boolean deleteProduct(String productName);
 
     /**
      * Update an existing product - delete and add/create - or select existing one and update fields.
      * @param product
      * @return
      */
-    public boolean updateProduct(Product product);
+    public String updateProduct(Product product);
 
     /**
      * Retrieve the User matching the supplied userName
@@ -73,6 +73,6 @@ public interface ISqlServerService {
      * @param user
      * @return
      */
-    public boolean updateUser(User user);
+    public String updateUser(User user);
 
 }
