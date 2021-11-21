@@ -44,4 +44,12 @@ public class UserController {
         }
         return Map.of("message", "User {" + username + "} could not be deleted");
     }
+
+    @RequestMapping("/updateuser/{username}/{firstname}/{lastname}/{role}/")
+    Map<String, String> updateUser(@PathVariable String username, @PathVariable String firstname, @PathVariable String lastname, @PathVariable String role) {
+
+        User newUser = new User(username, firstname, lastname, role);
+        String result = _sqlServerService.updateUser(newUser);
+        return Map.of("message", result);
+    }
 }

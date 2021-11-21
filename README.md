@@ -36,7 +36,7 @@ The application supports the following:
 * Get Product data (REST /product/get/{name})
 * Remove an existing Product (REST /product/delete/{name});
 
-``Get User use a loose search for partial strings.``
+``Get User and Producr use a loose search for partial strings.``
 
 
 

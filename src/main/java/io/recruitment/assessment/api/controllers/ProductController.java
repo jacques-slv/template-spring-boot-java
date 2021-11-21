@@ -24,7 +24,7 @@ public class ProductController {
     Map<String, String> addProduct(@PathVariable String productname, @PathVariable String description, @PathVariable Double price) {
 
         Product newProduct = new Product(productname, description, price);
-        String result = _sqlServerService.addNewProduct(newProduct);
+        String result = _sqlServerService.addProduct(newProduct);
         return Map.of("message", result);
     }
 
@@ -35,13 +35,21 @@ public class ProductController {
         return Map.of("message", products);
     }
 
-    @RequestMapping("/deletepoduct/{productname}")
+    @RequestMapping("/deleteproduct/{productname}")
     Map<String, String> deleteProduct(@PathVariable String productname) {
 
-        if (_sqlServerService.deleteUser(productname)) {
+        if (_sqlServerService.deleteProduct(productname)) {
 
             return Map.of("message", "Product {" + productname + "} has been successfully deleted");
         }
         return Map.of("message", "Product {" + productname + "} could not be deleted");
+    }
+
+    @RequestMapping("/updateproduct/{productname}/{description}/{price}/")
+    Map<String, String> updateProduct(@PathVariable String productname, @PathVariable String description, @PathVariable Double price) {
+
+        Product newProduct = new Product(productname, description, price);
+        String result = _sqlServerService.updateProduct(newProduct);
+        return Map.of("message", result);
     }
 }

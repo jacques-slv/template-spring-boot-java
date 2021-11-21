@@ -76,7 +76,7 @@ public class SqlServerServiceImpl implements ISqlServerService {
     }
 
     @Override
-    public String addNewProduct(Product product) {
+    public String addProduct(Product product) {
         int rowInserted = 0;
         try {
             if (mySqlConnection == null || mySqlConnection.isClosed()) connect();

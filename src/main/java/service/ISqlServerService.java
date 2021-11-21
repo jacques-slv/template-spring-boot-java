@@ -31,7 +31,7 @@ public interface ISqlServerService {
      * @param product
      * @return
      */
-    public String addNewProduct(Product product);
+    public String addProduct(Product product);
 
     /**
      * Remove from the product table the item matching the give product ID
